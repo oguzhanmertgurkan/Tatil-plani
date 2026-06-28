@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selimiye & Bozburun – 5 Günlük Gezi Broşürü</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sea:   #1a6b7c;
+    --sand:  #f5ede0;
+    --ink:   #1c2b2e;
+    --mist:  #e8f0f2;
+
+    /* Gün renkleri */
+    --g1: #e05c3a;   /* Gün 1 – mercan */
+    --g2: #2a7fb5;   /* Gün 2 – mavi */
+    --g3: #6b48b5;   /* Gün 3 – mor */
+    --g4: #2e8b57;   /* Gün 4 – orman */
+    --g5: #c09a2f;   /* Gün 5 – altın */
+
+    --g1-bg: #fdf1ec;
+    --g2-bg: #eaf4fb;
+    --g3-bg: #f3f0fb;
+    --g4-bg: #ebf5ef;
+    --g5-bg: #fdf8ea;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── KAPAK ── */
+  .cover {
+    background: linear-gradient(160deg, #0d3d4d 0%, #1a6b7c 55%, #2ca8a0 100%);
+    color: #fff;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    pointer-events: none;
+  }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 18px;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .cover h1 span { color: #7dd9d4; }
+  .cover-sub {
+    font-size: 15px;
+    opacity: 0.8;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+  .cover-days {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cover-day {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+    border: 2px solid rgba(255,255,255,0.6);
+    color: #fff;
+  }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    background: #fff;
+    border-bottom: 1px solid #dde6e8;
+    padding: 12px 20px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── HARİTA ── */
+  .map-section {
+    background: #fff;
+    padding: 0;
+  }
+  .map-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    padding: 24px 24px 0;
+    color: var(--ink);
+  }
+  .map-section p.map-note {
+    font-size: 12px;
+    color: #666;
+    padding: 6px 24px 12px;
+  }
+  #map {
+    width: 100%;
+    height: 520px;
+    border-top: 1px solid #e0e8ea;
+  }
+
+  /* ── İÇERİK ── */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* ── GÜN KARTI ── */
+  .day-card {
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .day-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #fff;
+  }
+  .day-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 700;
+    opacity: 0.9;
+    min-width: 48px;
+  }
+  .day-title-wrap { flex: 1; }
+  .day-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  .day-badge {
+    background: rgba(255,255,255,0.22);
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .day-body {
+    padding: 20px 22px 22px;
+  }
+  .day-body .section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .stop-list { list-style: none; margin-bottom: 16px; }
+  .stop-list li {
+    display: flex;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    align-items: flex-start;
+  }
+  .stop-list li:last-child { border-bottom: none; }
+  .stop-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: #fff;
+  }
+  .stop-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .stop-text small { font-size: 12.5px; color: #555; }
+  .stop-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin-top: 4px;
+    color: #fff;
+  }
+
+  .tip-box {
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 12.5px;
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* ── UYARI KUTUSU ── */
+  .info-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .info-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .warning-row, .phone-row, .pack-row {
+    display: flex; gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .warning-row:last-child, .phone-row:last-child, .pack-row:last-child { border-bottom: none; }
+  .row-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .cover { padding: 44px 20px 36px; }
+    .day-header { flex-wrap: wrap; }
+    .day-badge { margin-top: 4px; }
+    #map { height: 380px; }
+  }
+
+  /* ── GÜN RENKLERİ ── */
+  .d1 .day-header, .d1 .stop-icon, .d1 .stop-link, .d1.tip-box { background: var(--g1); }
+  .d1 .day-body { background: var(--g1-bg); }
+  .d1 .tip-box { background: #fceae4; }
+  .d1 .section-label { color: var(--g1); }
+
+  .d2 .day-header, .d2 .stop-icon, .d2 .stop-link, .d2.tip-box { background: var(--g2); }
+  .d2 .day-body { background: var(--g2-bg); }
+  .d2 .tip-box { background: #deeef8; }
+  .d2 .section-label { color: var(--g2); }
+
+  .d3 .day-header, .d3 .stop-icon, .d3 .stop-link, .d3.tip-box { background: var(--g3); }
+  .d3 .day-body { background: var(--g3-bg); }
+  .d3 .tip-box { background: #eceaf8; }
+  .d3 .section-label { color: var(--g3); }
+
+  .d4 .day-header, .d4 .stop-icon, .d4 .stop-link, .d4.tip-box { background: var(--g4); }
+  .d4 .day-body { background: var(--g4-bg); }
+  .d4 .tip-box { background: #e3f3e9; }
+  .d4 .section-label { color: var(--g4); }
+
+  .d5 .day-header, .d5 .stop-icon, .d5 .stop-link, .d5.tip-box { background: var(--g5); }
+  .d5 .day-body { background: var(--g5-bg); }
+  .d5 .tip-box { background: #fdf4d8; }
+  .d5 .section-label { color: var(--g5); }
+
+  /* renk geçişleri header için */
+  .d1 .day-header { background: linear-gradient(135deg, #c94828, #e05c3a); }
+  .d2 .day-header { background: linear-gradient(135deg, #1a5f8a, #2a7fb5); }
+  .d3 .day-header { background: linear-gradient(135deg, #4e318f, #6b48b5); }
+  .d4 .day-header { background: linear-gradient(135deg, #1f6640, #2e8b57); }
+  .d5 .day-header { background: linear-gradient(135deg, #8f6d1a, #c09a2f); }
+
+  .cover-day.d1 { background: var(--g1); border-color: var(--g1); }
+  .cover-day.d2 { background: var(--g2); border-color: var(--g2); }
+  .cover-day.d3 { background: var(--g3); border-color: var(--g3); }
+  .cover-day.d4 { background: var(--g4); border-color: var(--g4); }
+  .cover-day.d5 { background: var(--g5); border-color: var(--g5); }
+</style>
+</head>
+<body>
+
+<!-- KAPAK -->
+<div class="cover">
+  <div class="cover-badge">5 Günlük Tatil Rehberi · 2025</div>
+  <h1>Selimiye &<br><span>Bozburun</span></h1>
+  <p class="cover-sub">Saklı Koylar · Tekne Turları · Yürüyerek Akşam Yemekleri</p>
+  <div class="cover-days">
+    <div class="cover-day d1">1</div>
+    <div class="cover-day d2">2</div>
+    <div class="cover-day d3">3</div>
+    <div class="cover-day d4">4</div>
+    <div class="cover-day d5">5</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--g1)"></div> Gün 1 – Varış &amp; Sığ Liman</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--g2)"></div> Gün 2 – Hisarönü Tekne Turu</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--g3)"></div> Gün 3 – Bozburun &amp; Caz</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--g4)"></div> Gün 4 – Doğa &amp; Cennet Koyu</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--g5)"></div> Gün 5 – Söğüt &amp; SAVAYA</div>
+</div>
+
+<!-- HARİTA -->
+<div class="map-section">
+  <h2>📍 İnteraktif Rota Haritası</h2>
+  <p class="map-note">Pinlere tıklayarak bilgi kartını açın. Her renk ayrı bir güne karşılık gelir.</p>
+  <div id="map"></div>
+</div>
+
+<!-- GÜNLER -->
+<div class="content">
+
+  <!-- GÜN 1 -->
+  <div class="day-card d1">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <div class="day-title-wrap">
+        <div class="day-label">Gün 1</div>
+        <div class="day-title">Varış &amp; "İki Sığ Liman" Keşfi</div>
+      </div>
+      <div class="day-badge">🚗 Arabalı + 🚶 Yürüyüş</div>
+    </div>
+    <div class="day-body">
+      <div class="section-label">☀️ Gündüz</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g1)">🏖️</div>
+          <div class="stop-text">
+            <strong>Akkum Koyu</strong>
+            <small>Havuz gibi sığ su, kumsal. Yerleşimden sonra arabayla gidin.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7228855,28.0874125" target="_blank" class="stop-link" style="background:var(--g1)">📍 Haritada Aç</a>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g1)">⛵</div>
+          <div class="stop-text">
+            <strong>Sığ Liman</strong>
+            <small>Akşamüstü arabayı eve bırakıp kordonun sonundan yürüyerek ulaşın. Çarşaf gibi sakin deniz.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7090,28.0910" target="_blank" class="stop-link" style="background:var(--g1)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🍺 Akşamüstü Molası</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g1)">🍻</div>
+          <div class="stop-text">
+            <strong>Bull Bar</strong>
+            <small>Sığ Liman dönüşü sahil kenarında bira &amp; patates. Salaş, samimi.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7068,28.0928" target="_blank" class="stop-link" style="background:var(--g1)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="tip-box" style="background:#fceae4;">
+        <span class="tip-icon">🏠</span>
+        <span><strong>Akşam:</strong> Eve dön. Balkon yemeği, pratik ve bütçe dostu. İlk günün yorgunluğunu at.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GÜN 2 -->
+  <div class="day-card d2">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <div class="day-title-wrap">
+        <div class="day-label">Gün 2</div>
+        <div class="day-title">Hisarönü Körfezi Adalar Tekne Turu</div>
+      </div>
+      <div class="day-badge">🚢 Sıfır Araç Günü</div>
+    </div>
+    <div class="day-body">
+      <div class="section-label">☀️ Gündüz – Havluyla Eve'den Limana</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g2)">🚢</div>
+          <div class="stop-text">
+            <strong>Selimiye Limanı – Tekne Kalkış</strong>
+            <small>Saat 10:00 kalkış. Evden havlunla çık, yürüyerek limana git.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7083,28.0893" target="_blank" class="stop-link" style="background:var(--g2)">📍 Haritada Aç</a>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g2)">🌋</div>
+          <div class="stop-text">
+            <strong>Dişlice Adası</strong>
+            <small>Volkanik yapısıyla ilgi çekici. Tekneden yüzme molası.</small>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g2)">⛪</div>
+          <div class="stop-text">
+            <strong>Kamelye Adası</strong>
+            <small>Manastır kalıntıları. Tarihi atmosfer içinde yüzme.</small>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g2)">🏞️</div>
+          <div class="stop-text">
+            <strong>Bencik Koyu</strong>
+            <small>Fiyort benzeri yapısıyla yemyeşil. Öğle yemeği teknede dahil.</small>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🌙 Akşam – Yürüyerek Akşam Yemeği</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g2)">🍽️</div>
+          <div class="stop-text">
+            <strong>Delice Restaurant &amp; Bar</strong>
+            <small>Deniz sıfır masalar, pazılı levrek, canlı müzik. <strong>Rezervasyon şart!</strong></small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7084706,28.0890647" target="_blank" class="stop-link" style="background:var(--g2)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="tip-box" style="background:#deeef8;">
+        <span class="tip-icon">📞</span>
+        <span><strong>İpucu:</strong> Delice çok dolar. Sabah erkenden arayıp masa ayırt. Tel: <strong>+90 530 508 61 51</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GÜN 3 -->
+  <div class="day-card d3">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <div class="day-title-wrap">
+        <div class="day-label">Gün 3</div>
+        <div class="day-title">Bozburun Akvaryum Turu &amp; Caz Gecesi</div>
+      </div>
+      <div class="day-badge">🚗 Kısa Sürüş + 🚶 Arabasız Akşam</div>
+    </div>
+    <div class="day-body">
+      <div class="section-label">☀️ Gündüz – Bozburun Tekne Turu</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g3)">🚗</div>
+          <div class="stop-text">
+            <strong>Bozburun Limanı</strong>
+            <small>Selimiye'den 20 dakika. Sabah arabay sür, 10:15 teknesine yetiş.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.6924777,28.0417994" target="_blank" class="stop-link" style="background:var(--g3)">📍 Haritada Aç</a>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g3)">💎</div>
+          <div class="stop-text">
+            <strong>Ada Boğazı (Mavi Göl)</strong>
+            <small>Turkuaz rengi inanılmaz. Tekne içinden doğal geçit.</small>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g3)">🐟</div>
+          <div class="stop-text">
+            <strong>Bozburun Akvaryum Koyu</strong>
+            <small>Berrak suda balıklarla yüzme. Şnorkel getir!</small>
+          </div>
+        </li>
+        <li>
+          <div class="stop-icon" style="background:var(--g3)">🔴</div>
+          <div class="stop-text">
+            <strong>Kızılada</strong>
+            <small>Derin sular, farklı bir mavi. Tekneden atlama keyfi.</small>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🌙 Akşam – Caz Gecesi (Arabasız)</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g3)">🎹</div>
+          <div class="stop-text">
+            <strong>Piano Jazz Bar</strong>
+            <small>Selimiye'nin simgesi. Kaliteli kokteyller, canlı caz. Dönüşte arabayla eve değil, yürüyerek.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7064535,28.0928438" target="_blank" class="stop-link" style="background:var(--g3)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="tip-box" style="background:#eceaf8;">
+        <span class="tip-icon">💡</span>
+        <span>Bozburun tekne turunda açık denizde telefonun Yunan operatörüne bağlanabilir. Hücresel veriyi kapatmayı unutma!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GÜN 4 -->
+  <div class="day-card d4">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <div class="day-title-wrap">
+        <div class="day-label">Gün 4</div>
+        <div class="day-title">Doğa &amp; Fotoğraf Günü</div>
+      </div>
+      <div class="day-badge">📸 Cin Bükü + Cennet Koyu</div>
+    </div>
+    <div class="day-body">
+      <div class="section-label">🌅 Sabah – Kristal Koy</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g4)">🌿</div>
+          <div class="stop-text">
+            <strong>Cin Bükü</strong>
+            <small>Turgut yönü. Kristal berraklık, zeytin ağaçları, gölge. İlk ışıklarla git, kalabalık olmaz.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7220774,28.1154181" target="_blank" class="stop-link" style="background:var(--g4)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🌳 Öğleden Sonra – Orman Yürüyüşü</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g4)">🌲</div>
+          <div class="stop-text">
+            <strong>Cennet Koyu</strong>
+            <small>Selimiye'ye dön, arabayı park et. 10 dakika orman yürüyüşüyle çam gölgeli sahile ulaş.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.7140,28.0960" target="_blank" class="stop-link" style="background:var(--g4)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="tip-box" style="background:#e3f3e9;">
+        <span class="tip-icon">🧺</span>
+        <span><strong>Hazırlık:</strong> Sabah sandviç ve buzluğu eve hazırla. Cin Bükü'nde hiçbir tesis yok, her şeyini götür.</span>
+      </div>
+      <div class="tip-box" style="background:#e3f3e9; margin-top:8px;">
+        <span class="tip-icon">🏠</span>
+        <span><strong>Akşam:</strong> Bütçe dostu balkon yemeği. Yorgunluğu at, yarın uzun gün var.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GÜN 5 -->
+  <div class="day-card d5">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <div class="day-title-wrap">
+        <div class="day-label">Gün 5</div>
+        <div class="day-title">Vahşi Coğrafya &amp; Şık Veda Gecesi</div>
+      </div>
+      <div class="day-badge">🤿 Su Ayakkabısı Şart!</div>
+    </div>
+    <div class="day-body">
+      <div class="section-label">🌄 Sabah – Organik Kahvaltı</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g5)">☕</div>
+          <div class="stop-text">
+            <strong>Söğüt Günbatımı Butik Otel – Kahvaltı</strong>
+            <small>Söğüt köyüne arabayla geç. Manzaraya karşı efsane organik kahvaltı. Önceden masa teyidi şart.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.663101,28.101931" target="_blank" class="stop-link" style="background:var(--g5)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🏊 Öğleden Önce – Kaya Kemeri Dalış</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g5)">🪨</div>
+          <div class="stop-text">
+            <strong>Delikliyol Koyu</strong>
+            <small>Taşlıca yolu üzerinde. Denizin içindeki doğal kaya kemeri, bakir koy. Şnorkel ve su ayakkabısı şart.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.6750,28.0680" target="_blank" class="stop-link" style="background:var(--g5)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🌊 Öğleden Sonra – Sahil Kokteyli</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g5)">🍹</div>
+          <div class="stop-text">
+            <strong>Kekik Söğüt – Söğüt Saranda Sahili</strong>
+            <small>Deniz kenarında bir-iki kokteyl. Huzurlu, sakin öğle sonrası.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.6620,28.1010" target="_blank" class="stop-link" style="background:var(--g5)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="section-label">🌅 Akşam – Fine-Dining Veda (Tekneyle Ulaşım!)</div>
+      <ul class="stop-list">
+        <li>
+          <div class="stop-icon" style="background:var(--g5)">⚓</div>
+          <div class="stop-text">
+            <strong>SAVAYA Yacht Club</strong>
+            <small>Eve dön, hazırlan, arabayı bırak. Bozburun limanından ücretsiz servis teknesiyle ulaş. Karadan yolu yok – yarımadanın en lüks gün batımı lokantası.</small>
+            <br>
+            <a href="https://maps.google.com/?q=36.6741672,27.9966010" target="_blank" class="stop-link" style="background:var(--g5)">📍 Haritada Aç</a>
+          </div>
+        </li>
+      </ul>
+      <div class="tip-box" style="background:#fdf4d8;">
+        <span class="tip-icon">📞</span>
+        <span><strong>Rezervasyon:</strong> SAVAYA için 1–2 gün önceden ara. Tel: <strong>+90 543 437 60 26</strong> · Servis teknesinin saatini de sor.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BİLGİ KUTULARI -->
+  <div class="info-section">
+    <h3>📱 Roaming Uyarısı</h3>
+    <div class="warning-row">
+      <span class="row-icon">⚠️</span>
+      <div>Bozburun tekne turunda ve Söğüt/Delikliyol bölgesinde telefon <strong>Yunanistan (Symi Adası)</strong> operatörlerine bağlanabilir. Fatura şişmemesi için <strong>otomatik ağ seçimini kapat</strong>, kendi operatörünü manuel olarak seç. Tekneye binmeden önce ayarla.</div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>📞 Önemli Telefon Numaraları</h3>
+    <div class="phone-row">
+      <span class="row-icon">⚓</span>
+      <div><strong>SAVAYA Yacht Club</strong><br><small>Tekne servis saati ve masa rezervasyonu için 1–2 gün önceden ara.</small><br><a href="tel:+905434376026" style="color:var(--sea); font-weight:600;">+90 543 437 60 26</a></div>
+    </div>
+    <div class="phone-row">
+      <span class="row-icon">☕</span>
+      <div><strong>Söğüt Günbatımı Butik Otel</strong><br><small>Manzaralı masa için önceden teyit et.</small><br><a href="tel:+905388385676" style="color:var(--sea); font-weight:600;">+90 538 838 56 76</a></div>
+    </div>
+    <div class="phone-row">
+      <span class="row-icon">🍽️</span>
+      <div><strong>Delice Restaurant &amp; Bar</strong><br><small>Gün 2 akşam yemeği rezervasyonu için ara.</small><br><a href="tel:+905305086151" style="color:var(--sea); font-weight:600;">+90 530 508 61 51</a></div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>🎒 Çantanda Olması Gerekenler</h3>
+    <div class="pack-row"><span class="row-icon">👟</span><div><strong>Deniz ayakkabısı</strong> — Delikliyol ve Cin Bükü için kesinlikle şart</div></div>
+    <div class="pack-row"><span class="row-icon">🤿</span><div><strong>Şnorkel / deniz gözlüğü</strong> — Bozburun Akvaryum Koyu ve Delikliyol için</div></div>
+    <div class="pack-row"><span class="row-icon">🧊</span><div><strong>Şarjlı araç buzluğu</strong> — Cin Bükü'nde tesis yok, içeceğini götür</div></div>
+    <div class="pack-row"><span class="row-icon">🪑</span><div><strong>Kamp sandalyesi / plaj minderi</strong> — Tesssiz koylar için</div></div>
+    <div class="pack-row"><span class="row-icon">🧴</span><div><strong>Güneş kremi + şapka</strong> — Tekne turlarında korumasız kalırsın</div></div>
+  </div>
+
+</div>
+
+<!-- HARİTA SCRİPT -->
+<script>
+  const DAYS = {
+    1: { color: '#e05c3a', label: 'Gün 1' },
+    2: { color: '#2a7fb5', label: 'Gün 2' },
+    3: { color: '#6b48b5', label: 'Gün 3' },
+    4: { color: '#2e8b57', label: 'Gün 4' },
+    5: { color: '#c09a2f', label: 'Gün 5' },
+  };
+
+  const PINS = [
+    { day:1, lat:36.7228855, lng:28.0874125, name:'Akkum Koyu', desc:'Havuz gibi sığ, temiz kumsal. Gün 1 öğleden sonrası.', icon:'🏖️' },
+    { day:1, lat:36.7090,    lng:28.0910,    name:'Sığ Liman',   desc:'Çarşaf deniz. Eve yürüyüp arabayı bırak, sonra kordonun sonuna yürü.', icon:'⛵' },
+    { day:1, lat:36.7068,    lng:28.0928,    name:'Bull Bar',    desc:'Salaş sahil barı. Bira & patates, gün batımı keyfi.', icon:'🍺' },
+    { day:2, lat:36.7083,    lng:28.0893,    name:'Selimiye Limanı – Tekne Kalkışı', desc:'Saat 10:00 kalkış. Hisarönü Körfezi adalar turu.', icon:'🚢' },
+    { day:2, lat:36.7084706, lng:28.0890647, name:'Delice Restaurant & Bar', desc:'Deniz sıfır masalar, pazılı levrek. Rezervasyon şart! +90 530 508 61 51', icon:'🍽️' },
+    { day:3, lat:36.6924777, lng:28.0417994, name:'Bozburun Limanı', desc:'Selimiye\'den 20 dk. Saat 10:15 akvaryum turu kalkışı.', icon:'🚢' },
+    { day:3, lat:36.7064535, lng:28.0928438, name:'Piano Jazz Bar', desc:'Selimiye\'nin simgesi. Kaliteli kokteyller ve canlı caz gecesi.', icon:'🎹' },
+    { day:4, lat:36.7220774, lng:28.1154181, name:'Cin Bükü', desc:'Kristal su, zeytin gölgesi. Tesis yok – her şeyini götür.', icon:'🌿' },
+    { day:4, lat:36.7140,    lng:28.0960,    name:'Cennet Koyu', desc:'10 dk orman yürüyüşüyle çam gölgeli koy. Araba park – yürü.', icon:'🌲' },
+    { day:5, lat:36.663101,  lng:28.101931,  name:'Söğüt – Günbatımı Butik Otel', desc:'Manzaraya karşı organik kahvaltı. Tel: +90 538 838 56 76', icon:'☕' },
+    { day:5, lat:36.6750,    lng:28.0680,    name:'Delikliyol Koyu', desc:'Doğal kaya kemeri, bakir koy. Su ayakkabısı ve şnorkel şart!', icon:'🪨' },
+    { day:5, lat:36.6620,    lng:28.1010,    name:'Kekik Söğüt (Saranda)', desc:'Sahil kenarında kokteyl molası.', icon:'🍹' },
+    { day:5, lat:36.6741672, lng:27.9966010, name:'SAVAYA Yacht Club', desc:'Karadan yolu yok! Bozburun\'dan tekne servisiyle ulaş. Yarımadanın en lüks restoranı. Tel: +90 543 437 60 26', icon:'⚓' },
+  ];
+
+  function initMap() {
+    const center = { lat: 36.704, lng: 28.065 };
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 11,
+      center: center,
+      mapTypeId: 'hybrid',
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        mapTypeIds: ['roadmap', 'hybrid', 'terrain']
+      },
+      styles: [
+        { featureType:'water', elementType:'geometry', stylers:[{color:'#1a6b7c'}] },
+        { featureType:'poi', elementType:'labels', stylers:[{visibility:'off'}] }
+      ]
+    });
+
+    const infoWindow = new google.maps.InfoWindow();
+
+    // Polyliner – günlere göre noktaları bağla
+    const byDay = {};
+    PINS.forEach(p => {
+      if (!byDay[p.day]) byDay[p.day] = [];
+      byDay[p.day].push({ lat: p.lat, lng: p.lng });
+    });
+    Object.entries(byDay).forEach(([d, pts]) => {
+      if (pts.length < 2) return;
+      new google.maps.Polyline({
+        path: pts,
+        geodesic: true,
+        strokeColor: DAYS[d].color,
+        strokeOpacity: 0.55,
+        strokeWeight: 2.5,
+        map: map
+      });
+    });
+
+    PINS.forEach((pin, i) => {
+      const d = DAYS[pin.day];
+      const label = pin.day.toString();
+
+      // SVG marker
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="46" viewBox="0 0 36 46">
+          <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 28 18 28S36 31.5 36 18C36 8.06 27.94 0 18 0z"
+                fill="${d.color}" stroke="#fff" stroke-width="2"/>
+          <circle cx="18" cy="18" r="10" fill="rgba(255,255,255,0.25)"/>
+          <text x="18" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff"
+                font-family="Inter,sans-serif">${label}</text>
+        </svg>
+      `;
+      const marker = new google.maps.Marker({
+        position: { lat: pin.lat, lng: pin.lng },
+        map: map,
+        icon: {
+          url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+          scaledSize: new google.maps.Size(36, 46),
+          anchor: new google.maps.Point(18, 46)
+        },
+        title: pin.name,
+        zIndex: 100 + i
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.setContent(`
+          <div style="font-family:Inter,sans-serif;max-width:220px;padding:4px 2px;">
+            <div style="font-size:18px;margin-bottom:4px;">${pin.icon}</div>
+            <div style="font-size:14px;font-weight:600;color:#1c2b2e;margin-bottom:4px;">${pin.name}</div>
+            <div style="display:inline-block;background:${d.color};color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;margin-bottom:6px;">${d.label}</div>
+            <div style="font-size:12.5px;color:#444;line-height:1.5;">${pin.desc}</div>
+            <a href="https://maps.google.com/?q=${pin.lat},${pin.lng}" target="_blank"
+               style="display:inline-block;margin-top:8px;background:${d.color};color:#fff;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;">
+              📍 Yol Tarifi Al
+            </a>
+          </div>
+        `);
+        infoWindow.open(map, marker);
+      });
+    });
+  }
+
+  window.initMap = initMap;
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&callback=initMap">
+</script>
+
+</body>
+</html>
